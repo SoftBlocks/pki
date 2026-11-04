@@ -148,8 +148,10 @@
 
   /* Footer */
   footer { border-top: 1px solid var(--sb-border1); padding: var(--sb-sp-6) 0 var(--sb-sp-12); }
-  footer .wrap { display: flex; justify-content: space-between; gap: var(--sb-sp-4); flex-wrap: wrap; font-size: var(--sb-fs-sm); color: var(--sb-fg3); }
-  footer a { color: var(--sb-fg2); }
+  footer .wrap { font-size: var(--sb-fs-xs); line-height: 1.6; color: var(--sb-fg3); }
+  footer .legal { margin: 0; }
+  footer .legal strong { font-weight: 600; color: var(--sb-fg2); letter-spacing: .04em; }
+  footer .legal span { white-space: nowrap; }
 
   @media (max-width: 479px) {
     .hero { padding: var(--sb-sp-12) 0 var(--sb-sp-8); }
@@ -271,8 +273,10 @@
 
 <footer>
   <div class="wrap">
-    <span>SoftBlocks Ltd</span>
-    <a href="https://github.com/SoftBlocks/pki">Source on GitHub</a>
+    <p class="legal">
+      <strong>SOFTBLOCKS LTD.</strong> Registered in England and Wales. <span>Company No. 08299929</span><br>
+      Registered office: 86-90 Paul Street London EC2A 4NE &nbsp;·&nbsp; <span>VAT: GB 154732803</span>
+    </p>
   </div>
 </footer>
 
