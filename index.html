@@ -1,23 +1,280 @@
 <!doctype html>
+<html lang="en-GB">
+<head>
 <meta charset="utf-8">
-<title>SoftBlocks CA</title>
-<style>body{font:15px/1.5 system-ui,sans-serif;max-width:40em;margin:3em auto;padding:0 1em}code{background:#eee;padding:0 .3em}</style>
-<h1>SoftBlocks private CA</h1>
-<p>Certificate revocation lists and CA certificates for the SoftBlocks Ltd internal PKI.
-Nothing here is secret; the files are referenced by the certificates themselves.</p>
-<h2>Root certificate (install this to trust SoftBlocks services)</h2>
-<ul>
-<li><a href="root.pem">root.pem</a> (PEM) · <a href="root.crt">root.crt</a> (DER)</li>
-</ul>
-<h2>Chain</h2>
-<ul>
-<li><a href="intermediate.pem">intermediate.pem</a> · <a href="intermediate.crt">intermediate.crt</a></li>
-<li><a href="issuing.pem">issuing.pem</a> · <a href="issuing.crt">issuing.crt</a></li>
-<li><a href="chain.pem">chain.pem</a> (issuing + intermediate, for servers)</li>
-</ul>
-<h2>Revocation lists</h2>
-<ul>
-<li><a href="root.crl">root.crl</a></li>
-<li><a href="intermediate.crl">intermediate.crl</a></li>
-<li><a href="issuing.crl">issuing.crl</a></li>
-</ul>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SoftBlocks private CA</title>
+<meta name="description" content="Certificate revocation lists and CA certificates for the SoftBlocks internal PKI.">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  /* SoftBlocks.ai Design System tokens (tokens.json). Light first; dark flips the role tokens. */
+  :root {
+    --sb-orange: #ea5a0b; --sb-orange-50: #fef4ec; --sb-orange-100: #fde6d5; --sb-orange-300: #f9a372;
+    --sb-orange-400: #f57b3a; --sb-orange-600: #d14f08; --sb-orange-700: #b04106;
+    --sb-ink-900: #0f0f0f; --sb-ink-800: #1c1c1c; --sb-ink-700: #2a2a2a; --sb-ink-600: #4a4a4a; --sb-ink-500: #6b6b6b;
+    --sb-ink-300: #b5b5b5; --sb-ink-200: #d9d9d9; --sb-ink-100: #ededed;
+    --sb-paper: #ffffff; --sb-paper-alt: #fafafa; --sb-paper-sunk: #f2f2f2;
+
+    --sb-fg1: var(--sb-ink-800); --sb-fg2: var(--sb-ink-600); --sb-fg3: var(--sb-ink-500);
+    --sb-fg-accent: var(--sb-orange-700); --sb-fg-on-accent: var(--sb-ink-900);
+    --sb-bg1: var(--sb-paper); --sb-bg2: var(--sb-paper-alt); --sb-bg3: var(--sb-paper-sunk);
+    --sb-bg-accent: var(--sb-orange); --sb-bg-accent-hover: var(--sb-orange-400); --sb-bg-accent-active: var(--sb-orange-300);
+    --sb-bg-accent-soft: var(--sb-orange-50);
+    --sb-border1: var(--sb-ink-100); --sb-border2: var(--sb-ink-200); --sb-border3: var(--sb-ink-300);
+    --sb-hover1: var(--sb-ink-100); --sb-hover2: var(--sb-ink-200);
+    --sb-shadow-1: 0 1px 2px rgba(20,20,20,.06), 0 1px 3px rgba(20,20,20,.04);
+    --sb-ring-focus: 0 0 0 2px var(--sb-bg1), 0 0 0 4px var(--sb-orange);
+
+    --sb-sp-1: 4px; --sb-sp-2: 8px; --sb-sp-3: 12px; --sb-sp-4: 16px; --sb-sp-6: 24px; --sb-sp-8: 32px; --sb-sp-12: 48px; --sb-sp-16: 64px; --sb-sp-24: 96px;
+    --sb-r-xs: 3px; --sb-r-sm: 5px; --sb-r-pill: 999px;
+    --sb-fs-xs: 12px; --sb-fs-sm: 14px; --sb-fs-md: 16px; --sb-fs-lg: 18px; --sb-fs-xl: 22px; --sb-fs-3xl: 36px; --sb-fs-4xl: 48px;
+    --sb-reading-max: 720px;
+    --sb-dur-fast: 110ms; --sb-dur-base: 180ms; --sb-ease-out: cubic-bezier(.2,0,0,1);
+
+    --font-display: "Play", "Segoe UI", system-ui, sans-serif;
+    --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    color-scheme: light dark;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --sb-paper: #141414; --sb-paper-alt: #1c1c1c; --sb-paper-sunk: #0f0f0f;
+      --sb-fg1: #f2f2f2; --sb-fg2: #b5b5b5; --sb-fg3: #8c8c8c;
+      --sb-fg-accent: var(--sb-orange-400);
+      --sb-bg-accent-soft: rgba(234,90,11,.12);
+      --sb-border1: #2a2a2a; --sb-border2: #333333; --sb-border3: #4a4a4a;
+      --sb-hover1: rgba(255,255,255,.08); --sb-hover2: rgba(255,255,255,.14);
+      --sb-shadow-1: 0 1px 2px rgba(0,0,0,.45), 0 1px 3px rgba(0,0,0,.30);
+      --sb-ring-focus: 0 0 0 2px var(--sb-bg1), 0 0 0 4px var(--sb-orange-400);
+    }
+  }
+  :root[data-theme="dark"] {
+    --sb-paper: #141414; --sb-paper-alt: #1c1c1c; --sb-paper-sunk: #0f0f0f;
+    --sb-fg1: #f2f2f2; --sb-fg2: #b5b5b5; --sb-fg3: #8c8c8c;
+    --sb-fg-accent: var(--sb-orange-400);
+    --sb-bg-accent-soft: rgba(234,90,11,.12);
+    --sb-border1: #2a2a2a; --sb-border2: #333333; --sb-border3: #4a4a4a;
+    --sb-hover1: rgba(255,255,255,.08); --sb-hover2: rgba(255,255,255,.14);
+    --sb-shadow-1: 0 1px 2px rgba(0,0,0,.45), 0 1px 3px rgba(0,0,0,.30);
+    --sb-ring-focus: 0 0 0 2px var(--sb-bg1), 0 0 0 4px var(--sb-orange-400);
+  }
+
+  @font-face { font-family: "Play"; src: url("fonts/Play-Regular.ttf") format("truetype"); font-weight: 400; font-style: normal; font-display: swap; }
+  @font-face { font-family: "Play"; src: url("fonts/Play-Bold.ttf") format("truetype"); font-weight: 700; font-style: normal; font-display: swap; }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--sb-bg1);
+    color: var(--sb-fg1);
+    font-family: var(--font-sans);
+    font-size: var(--sb-fs-md);
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--sb-fg-accent); text-decoration: underline; text-underline-offset: 2px; }
+  a:hover { color: var(--sb-orange-600); }
+  :focus-visible { outline: none; box-shadow: var(--sb-ring-focus); border-radius: var(--sb-r-sm); }
+
+  .wrap { max-width: var(--sb-reading-max); margin: 0 auto; padding: 0 var(--sb-sp-4); }
+
+  /* Header */
+  .top { border-bottom: 1px solid var(--sb-border1); }
+  .top .wrap { display: flex; align-items: center; justify-content: space-between; gap: var(--sb-sp-4); height: 64px; }
+  .logo { display: inline-flex; align-items: center; }
+  .logo img { display: block; height: 28px; width: auto; }
+  .logo .dark { display: none; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .logo .light { display: none; } :root:not([data-theme="light"]) .logo .dark { display: block; } }
+  :root[data-theme="dark"] .logo .light { display: none; }
+  :root[data-theme="dark"] .logo .dark { display: block; }
+  .top-label { font-family: var(--font-mono); font-size: var(--sb-fs-xs); color: var(--sb-fg3); }
+
+  /* Hero */
+  .hero { padding: var(--sb-sp-16) 0 var(--sb-sp-12); }
+  .overline { font-family: var(--font-mono); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .12em; color: var(--sb-fg-accent); margin: 0 0 var(--sb-sp-3); }
+  h1 { font-family: var(--font-display); font-weight: 700; font-size: var(--sb-fs-4xl); line-height: 1.1; letter-spacing: -.01em; margin: 0 0 var(--sb-sp-4); }
+  .lead { font-size: var(--sb-fs-lg); color: var(--sb-fg2); margin: 0; max-width: 40em; text-wrap: pretty; }
+
+  /* Sections and cards */
+  section { padding: 0 0 var(--sb-sp-12); }
+  h2 { font-family: var(--font-display); font-weight: 700; font-size: var(--sb-fs-xl); line-height: 1.25; margin: 0 0 var(--sb-sp-4); }
+  .card { background: var(--sb-bg1); border: 1px solid var(--sb-border1); border-radius: var(--sb-r-sm); padding: var(--sb-sp-6); }
+  .card + .card { margin-top: var(--sb-sp-4); }
+  .card--tonal { background: var(--sb-bg-accent-soft); border-color: transparent; }
+
+  .cert-head { display: flex; align-items: flex-start; justify-content: space-between; gap: var(--sb-sp-4); flex-wrap: wrap; }
+  .cert-name { font-family: var(--font-display); font-weight: 700; font-size: var(--sb-fs-lg); margin: 0 0 var(--sb-sp-1); }
+  .cert-meta { font-size: var(--sb-fs-sm); color: var(--sb-fg2); margin: 0; }
+  .fp { margin: var(--sb-sp-4) 0 0; }
+  .fp dt { font-family: var(--font-mono); font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .12em; color: var(--sb-fg3); margin: 0 0 var(--sb-sp-1); }
+  .fp dd { margin: 0; font-family: var(--font-mono); font-size: var(--sb-fs-xs); color: var(--sb-fg1); word-break: break-all; line-height: 1.6; }
+  .actions { display: flex; gap: var(--sb-sp-2); flex-wrap: wrap; margin-top: var(--sb-sp-6); }
+
+  /* Buttons: Play 700 label, ink on orange, 5px radius */
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: var(--sb-sp-2);
+    height: 40px; padding: 0 var(--sb-sp-4);
+    font-family: var(--font-display); font-weight: 700; font-size: 14px; line-height: 1;
+    color: var(--sb-fg-on-accent); background: var(--sb-bg-accent);
+    border: 1px solid transparent; border-radius: var(--sb-r-sm);
+    text-decoration: none; cursor: pointer;
+    transition: background var(--sb-dur-fast) var(--sb-ease-out), border-color var(--sb-dur-fast) var(--sb-ease-out);
+  }
+  .btn:hover { background: var(--sb-bg-accent-hover); color: var(--sb-fg-on-accent); }
+  .btn:active { background: var(--sb-bg-accent-active); }
+  .btn--secondary { background: transparent; color: var(--sb-fg1); border-color: var(--sb-border3); }
+  .btn--secondary:hover { background: var(--sb-hover1); color: var(--sb-fg1); }
+  .btn--secondary:active { background: var(--sb-hover2); }
+
+  /* File lists */
+  .files { list-style: none; margin: 0; padding: 0; }
+  .files li { display: grid; grid-template-columns: 1fr auto; gap: var(--sb-sp-3) var(--sb-sp-4); align-items: center; padding: var(--sb-sp-3) 0; border-top: 1px solid var(--sb-border1); }
+  .files li:first-child { border-top: 0; padding-top: 0; }
+  .files li:last-child { padding-bottom: 0; }
+  .file-name { font-weight: 500; margin: 0; }
+  .file-sub { font-size: var(--sb-fs-sm); color: var(--sb-fg3); margin: 0; }
+  .links { display: flex; gap: var(--sb-sp-2); flex-wrap: wrap; justify-content: flex-end; }
+  .pill {
+    display: inline-flex; align-items: center; height: 28px; padding: 0 var(--sb-sp-3);
+    font-family: var(--font-mono); font-size: var(--sb-fs-xs); font-weight: 600;
+    color: var(--sb-fg1); background: transparent; border: 1px solid var(--sb-border3); border-radius: var(--sb-r-sm);
+    text-decoration: none; transition: background var(--sb-dur-fast) var(--sb-ease-out);
+  }
+  .pill:hover { background: var(--sb-hover1); color: var(--sb-fg1); }
+  .note { font-size: var(--sb-fs-sm); color: var(--sb-fg3); margin: var(--sb-sp-4) 0 0; }
+
+  /* Footer */
+  footer { border-top: 1px solid var(--sb-border1); padding: var(--sb-sp-6) 0 var(--sb-sp-12); }
+  footer .wrap { display: flex; justify-content: space-between; gap: var(--sb-sp-4); flex-wrap: wrap; font-size: var(--sb-fs-sm); color: var(--sb-fg3); }
+  footer a { color: var(--sb-fg2); }
+
+  @media (max-width: 479px) {
+    .hero { padding: var(--sb-sp-12) 0 var(--sb-sp-8); }
+    h1 { font-size: var(--sb-fs-3xl); }
+    section { padding-bottom: var(--sb-sp-8); }
+    .card { padding: var(--sb-sp-4); }
+    .files li { grid-template-columns: 1fr; }
+    .links { justify-content: flex-start; }
+  }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: .01ms !important; } }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="./" aria-label="SoftBlocks">
+      <img class="light" src="assets/softblocks-logo.svg" alt="SoftBlocks">
+      <img class="dark" src="assets/softblocks-logo-dark.svg" alt="SoftBlocks">
+    </a>
+    <span class="top-label">pki.softblocks.io</span>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="hero">
+    <p class="overline">Public key infrastructure</p>
+    <h1>SoftBlocks private CA</h1>
+    <p class="lead">Certificate revocation lists and CA certificates for the SoftBlocks Ltd internal PKI.</p>
+  </div>
+
+  <section aria-labelledby="root-h">
+    <h2 id="root-h">Root certificate</h2>
+    <div class="card card--tonal">
+      <div class="cert-head">
+        <div>
+          <p class="cert-name">SoftBlocks Root CA G2</p>
+          <p class="cert-meta">RSA 4096, SHA-256 · valid until 30 October 2046</p>
+        </div>
+      </div>
+      <dl class="fp">
+        <dt>SHA-256 fingerprint</dt>
+        <dd>5C:CC:FE:4D:10:B1:A8:F7:0E:37:41:79:72:9D:BF:DD:7B:07:0F:AA:25:B9:BE:36:54:31:57:74:88:21:06:B7</dd>
+      </dl>
+      <div class="actions">
+        <a class="btn" href="root.pem" download>Download root.pem</a>
+        <a class="btn btn--secondary" href="root.crt" download>DER (root.crt)</a>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="chain-h">
+    <h2 id="chain-h">Chain</h2>
+    <div class="card">
+      <ul class="files">
+        <li>
+          <div>
+            <p class="file-name">SoftBlocks Intermediate CA G2</p>
+            <p class="file-sub">Signed by the root · valid until 1 November 2036</p>
+          </div>
+          <div class="links">
+            <a class="pill" href="intermediate.pem" download>intermediate.pem</a>
+            <a class="pill" href="intermediate.crt" download>intermediate.crt</a>
+          </div>
+        </li>
+        <li>
+          <div>
+            <p class="file-name">SoftBlocks Issuing CA G2</p>
+            <p class="file-sub">Signed by the intermediate · valid until 3 November 2031</p>
+          </div>
+          <div class="links">
+            <a class="pill" href="issuing.pem" download>issuing.pem</a>
+            <a class="pill" href="issuing.crt" download>issuing.crt</a>
+          </div>
+        </li>
+        <li>
+          <div>
+            <p class="file-name">Full chain</p>
+            <p class="file-sub">Issuing and intermediate in one file, for servers</p>
+          </div>
+          <div class="links">
+            <a class="pill" href="chain.pem" download>chain.pem</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section aria-labelledby="crl-h">
+    <h2 id="crl-h">Revocation lists</h2>
+    <div class="card">
+      <ul class="files">
+        <li>
+          <div>
+            <p class="file-name">Root CA</p>
+            <p class="file-sub">Revocations of the intermediate</p>
+          </div>
+          <div class="links"><a class="pill" href="root.crl" download>root.crl</a></div>
+        </li>
+        <li>
+          <div>
+            <p class="file-name">Intermediate CA</p>
+            <p class="file-sub">Revocations of the issuing CA</p>
+          </div>
+          <div class="links"><a class="pill" href="intermediate.crl" download>intermediate.crl</a></div>
+        </li>
+        <li>
+          <div>
+            <p class="file-name">Issuing CA</p>
+            <p class="file-sub">Revocations of server and client certificates</p>
+          </div>
+          <div class="links"><a class="pill" href="issuing.crl" download>issuing.crl</a></div>
+        </li>
+      </ul>
+      <p class="note">The .crt and .crl files are DER encoded and are the ones referenced inside the certificates. The .pem files are the same certificates as text.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>SoftBlocks Ltd</span>
+    <a href="https://github.com/SoftBlocks/pki">Source on GitHub</a>
+  </div>
+</footer>
+
+</body>
+</html>
