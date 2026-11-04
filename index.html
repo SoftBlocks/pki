@@ -1,0 +1,23 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>SoftBlocks CA</title>
+<style>body{font:15px/1.5 system-ui,sans-serif;max-width:40em;margin:3em auto;padding:0 1em}code{background:#eee;padding:0 .3em}</style>
+<h1>SoftBlocks private CA</h1>
+<p>Certificate revocation lists and CA certificates for the SoftBlocks Ltd internal PKI.
+Nothing here is secret; the files are referenced by the certificates themselves.</p>
+<h2>Root certificate (install this to trust SoftBlocks services)</h2>
+<ul>
+<li><a href="root.pem">root.pem</a> (PEM) · <a href="root.crt">root.crt</a> (DER)</li>
+</ul>
+<h2>Chain</h2>
+<ul>
+<li><a href="intermediate.pem">intermediate.pem</a> · <a href="intermediate.crt">intermediate.crt</a></li>
+<li><a href="issuing.pem">issuing.pem</a> · <a href="issuing.crt">issuing.crt</a></li>
+<li><a href="chain.pem">chain.pem</a> (issuing + intermediate, for servers)</li>
+</ul>
+<h2>Revocation lists</h2>
+<ul>
+<li><a href="root.crl">root.crl</a></li>
+<li><a href="intermediate.crl">intermediate.crl</a></li>
+<li><a href="issuing.crl">issuing.crl</a></li>
+</ul>
