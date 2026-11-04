@@ -1,4 +1,4 @@
-# crl.softblocks.io
+# pki.softblocks.io
 
 Published CRLs and CA certificates of the SoftBlocks private CA, served by GitHub Pages
 over plain HTTP (certificate validation must not depend on TLS).
